@@ -1,45 +1,3 @@
-// var node=document.querySelector('#items');
-// console.log(node);
-// //Parent Node
-// console.log(node.parentElement);
-
-// //Last Element Child
-// console.log(node.lastElementChild);
-
-// //Last Child
-// console.log(node.lastChild);
-
-// //First Element Child
-// console.log(node.firstElementChild);
-
-// //First Child
-// console.log(node.firstChild);
-
-// //Create Child
-
-// var newChild=document.createTextNode("Hello");
-// node.appendChild(newChild);
-
-// //Prev Sibling
-// console.log(newChild.previousSibling);
-// console.log(newChild.previousElementSibling);
-
-// //Next Sibling
-// console.log(node.nextSibling);
-// console.log(node.nextElementSibling);
-
-// //Creating New Element
-// var newDiv=document.createElement('div');
-// newDiv.className="hello";
-// newDiv.setAttribute('title','New Div');
-// newDiv.appendChild(newChild);
-
-// //Insert Before "Items"
-// var newClass=document.querySelector('#main');
-// var h1=document.querySelector("#h1")
-// newClass.insertBefore(newDiv,h1);
-
-//INDEX2.HTML JS CODE
 var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
 var filter = document.getElementById('filter');
@@ -56,7 +14,7 @@ function addItem(e){
   e.preventDefault();
 
   // Get input value
-  var newItem = document.getElementById('item').value;
+  var newItem = document.getElementById('item').value+" "+document.getElementById('item2').value;
 
   // Create new li element
   var li = document.createElement('li');
@@ -90,3 +48,24 @@ function removeItem(e){
     }
   }
 }
+
+//Filter
+var filter=document.getElementById("filter");
+filter.addEventListener('keyup',filterItems);
+
+function filterItems(e){
+    var text=e.target.value.toLowerCase();
+    var items=itemList.getElementsByTagName('li');
+
+    Array.from(items).forEach(function(item){
+        var itemName=item.firstChild.textContent;
+        if(itemName.toLowerCase().indexOf(text)!=-1)
+        {
+            item.style.display="block";
+        }
+        else
+        {
+            item.style.display="none";
+        }
+    });
+};

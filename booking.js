@@ -5,14 +5,14 @@ var form=document.getElementById("form");
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
 });
+var i=1;
 
 submitBtn.addEventListener('click',(e)=>{
-    console.log("Hello");
-    var formname=document.getElementById("name").value;
-    var formemail=document.getElementById("email").value;
-    var formdate=document.getElementById("date").value;
+    var Obj={
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        date: document.getElementById("date").value
+    };
 
-    localStorage.setItem("name", formname);
-    localStorage.setItem("email", formemail);
-    localStorage.setItem("date",formdate);
+    localStorage.setItem(`Obj${i++}`, JSON.stringify(Obj));
 });

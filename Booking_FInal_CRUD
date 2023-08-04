@@ -4,28 +4,14 @@ var form=document.getElementById("form");
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
 });
-var i=1;
 
-submitBtn.addEventListener('click',(e)=>{
-    var name=document.getElementById("name").value;
-    var email=document.getElementById("email").value;
-    var date=document.getElementById("date").value;
-    var Obj={
-        name: name,
-        email: email,
-        date: date
-    };
-    axios.post("https://crudcrud.com/api/e634a8dbdc1c4a82b331172a33f4fdff/dataApp",Obj)
-        .then((response) =>{
-            alert('Data Saved Successfully!');
-        })
-        .catch((err) => alert("Error Found : "+err));
-    //localStorage.setItem(email, JSON.stringify(Obj));
+function showUsersonScreen(Obj)
+{
     //NEW LIST
     var newList=document.createElement('li');
     newList.setAttribute('class','list-group-item');
     newList.setAttribute("id",email);
-    var newText=document.createTextNode(name+" "+email+" "+date);
+    var newText=document.createTextNode(Obj.name+" "+Obj.email+" "+Obj.date);
     newList.appendChild(newText);
 
     //NEW DELETE BUTTON
@@ -44,7 +30,40 @@ submitBtn.addEventListener('click',(e)=>{
     newList.appendChild(newButton);
     newList.appendChild(editButton);
     parent.appendChild(newList);
+}
+
+submitBtn.addEventListener('click',(e)=>{
+    var name=document.getElementById("name").value;
+    var email=document.getElementById("email").value;
+    var date=document.getElementById("date").value;
+    var Obj={
+        name: name,
+        email: email,
+        date: date
+    };
+    axios.post("https://crudcrud.com/api/e634a8dbdc1c4a82b331172a33f4fdff/dataApp",Obj)
+        .then((response) =>{
+            alert('Data Saved Successfully!');
+        })
+        .catch((err) => alert("Error Found : "+err));
+    //localStorage.setItem(email, JSON.stringify(Obj));
+    
 });
+
+//DOM CONTENT LOADER
+window.addEventListener("DOMContentLoaded", ()=> {
+    axios.get("https://crudcrud.com/api/e634a8dbdc1c4a82b331172a33f4fdff/dataApp")
+        .then((response)=>{
+            for(var i=0;i<response.data.length;i++)
+            {
+                console.log(response.data[i]);
+                showUsersonScreen(response.data[i]);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+})
 
 //delete Button
 var itemList=document.getElementById("items");

@@ -10,7 +10,7 @@ function showUsersonScreen(Obj)
     //NEW LIST
     var newList=document.createElement('li');
     newList.setAttribute('class','list-group-item');
-    newList.setAttribute("id",email);
+    newList.setAttribute("id",Obj._id);
     var newText=document.createTextNode(Obj.name+" "+Obj.email+" "+Obj.date);
     newList.appendChild(newText);
 
@@ -41,9 +41,10 @@ submitBtn.addEventListener('click',(e)=>{
         email: email,
         date: date
     };
-    axios.post("https://crudcrud.com/api/e634a8dbdc1c4a82b331172a33f4fdff/dataApp",Obj)
+    axios.post("https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp",Obj)
         .then((response) =>{
             alert('Data Saved Successfully!');
+            showUsersonScreen(response.data);
         })
         .catch((err) => alert("Error Found : "+err));
     //localStorage.setItem(email, JSON.stringify(Obj));
@@ -52,7 +53,7 @@ submitBtn.addEventListener('click',(e)=>{
 
 //DOM CONTENT LOADER
 window.addEventListener("DOMContentLoaded", ()=> {
-    axios.get("https://crudcrud.com/api/e634a8dbdc1c4a82b331172a33f4fdff/dataApp")
+    axios.get("https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp")
         .then((response)=>{
             for(var i=0;i<response.data.length;i++)
             {
@@ -71,8 +72,9 @@ itemList.addEventListener('click',(e)=>{
     if(e.target.classList.contains('delete')){
         if(confirm('Are You Sure?')){
           var li = e.target.parentElement;
+          axios.delete(`https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp/${li.id}`)
           itemList.removeChild(li);
-          localStorage.removeItem(`${li.id}`);
+          //localStorage.removeItem(`${li.id}`);
         }
     }
 });

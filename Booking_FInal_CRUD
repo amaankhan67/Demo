@@ -73,8 +73,12 @@ itemList.addEventListener('click',(e)=>{
         if(confirm('Are You Sure?')){
           var li = e.target.parentElement;
           axios.delete(`https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp/${li.id}`)
-          itemList.removeChild(li);
-          //localStorage.removeItem(`${li.id}`);
+            .then((response) =>{
+            alert('Data Deleted Successfully!');
+            })
+            .catch((err) => alert("Error Found : "+err));
+        itemList.removeChild(li);
+        //localStorage.removeItem(`${li.id}`);
         }
     }
 });
@@ -84,11 +88,22 @@ itemList.addEventListener('click',(e)=>{
     if(e.target.classList.contains('edit'))
     {
         var li = e.target.parentElement;
-        itemList.removeChild(li);
-        var obj=JSON.parse(localStorage.getItem(`${li.id}`));
-        document.getElementById("name").value=obj.name;
-        document.getElementById("email").value=obj.email;
-        document.getElementById("date").value=obj.date;
-        localStorage.removeItem(`${li.id}`);
+        axios.get(`https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp/${li.id}`)
+        .then((response)=>{
+            document.getElementById("name").value=response.data.name;
+            document.getElementById("email").value=response.data.email;
+            document.getElementById("date").value=response.data.date;
+            axios.delete(`https://crudcrud.com/api/66fa706bf1f242a5a79a5ae7ac587102/dataApp/${li.id}`)
+            .then((response) =>{
+                console.log(response);
+            })
+            .catch((err) => alert("Error Found : "+err));
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        //var obj=JSON.parse(localStorage.getItem(`${li.id}`));
+        //localStorage.removeItem(`${li.id}`);
     }
+    itemList.removeChild(li);
 });
